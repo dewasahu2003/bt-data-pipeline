@@ -1,47 +1,44 @@
-from scraper.base.main import BaseScraper
+from scraper.base.base import BaseScraper
 from dataclasses import dataclass
 from scraper.format import ScrapeFormat
-from utils.main import logger
+from utils.logger import logger
 import time
 from datasets import load_dataset
 
 
 @dataclass
-class HF8Scraper(BaseScraper):
+class HF7Scraper(BaseScraper):
     """
-    Scraper for the 'hf8' format.
+    Scraper for the 'hf7' format.
     """
 
-    format = ScrapeFormat.HF_8MEMEGENJOKE
-    dp = 10
+    format = ScrapeFormat.HF_7OIGJOKES
+    dp = 9
 
     def scrape(self) -> None:
         """
-        Scrape the 'hf8' format and store the data.
+        Scrape the 'hf7' format and store the data.
         """
         if self.format is None:
             logger.info("No format specified")
             return
-        logger.info("Running scraper for HF8 format")
-
+        logger.info("Running scraper for HF7 format")
         start = time.time()
 
-        df = load_dataset("Jayeshkumarjangir/memegen_jokes_1217")
+        df = load_dataset("orangetin/oig-jokes")
         df_main = df["train"].to_pandas()
         del df
 
-        df_main["content"] = df_main.apply(
-            lambda x: str(x["prompt"]) + str(x["completion"]),
+        df_main.rename(columns={"text": "content"}, inplace=True)
+        df_main.drop(
+            ["metadata"],
             axis=1,
+            inplace=True,
         )
         df_main.drop_duplicates(subset=["content"], inplace=True)
 
         df_main.reset_index(drop=True, inplace=True)
-        df_main.drop(
-            ["prompt", "completion", "instruction"],
-            axis=1,
-            inplace=True,
-        )
+
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
@@ -49,11 +46,13 @@ class HF8Scraper(BaseScraper):
             .str.strip("")
             .str.lower()
         )
+
         df_main = df_main.to_json(
             orient="records",
             lines=True,
             force_ascii=False,
         )
+
         # uploading datapoint=9
         # TODO: Implement upload_dataset_to_s3 function
         # upload_dataset_to_s3(df_main, "funnyshortjokes")

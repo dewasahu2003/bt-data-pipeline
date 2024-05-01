@@ -1,18 +1,16 @@
-import argparse as ap
+
 import json
 from dataclasses import dataclass
 from datetime import datetime
 
 from base import BaseScraper
-
+from .utils import logger
 from typing import List
 from core import *
 
-from src.utils import logger
-
 
 @dataclass
-class MainScrapper(BaseScraper):
+class MainScraper(BaseScraper):
     scraper_registry: dict[str, type[BaseScraper]] = {
         "dp1": FunnyShortJokesScraper,
         "dp2": LaughFactoryScraper,
@@ -78,6 +76,11 @@ class MainScrapper(BaseScraper):
         self.save_metadata()
 
 
+import argparse as ap
+from typing import List
+from scraper import MainScraper
+
+
 def main():
     parser = ap.ArgumentParser(description="Scraper Cli")
 
@@ -88,7 +91,7 @@ def main():
     parser.add_argument("-f", "--force", action="store", type=bool)
 
     args = parser.parse_args()
-    scraper = MainScrapper()
+    scraper = MainScraper()
     if args.all:
         scraper.scrape_all()
     elif args.code:

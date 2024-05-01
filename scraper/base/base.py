@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from format import ScrapeFormat
-import json
+
 
 
 @dataclass

@@ -1,7 +1,7 @@
-from scraper.base.main import BaseScraper
+from scraper.base.base import BaseScraper
 from dataclasses import dataclass
 from scraper.format import ScrapeFormat
-from utils.main import logger
+from utils.logger import logger
 import time
 from datasets import load_dataset
 

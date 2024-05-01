@@ -1,47 +1,46 @@
-from scraper.base.main import BaseScraper
+from scraper.base.base import BaseScraper
 from dataclasses import dataclass
 from scraper.format import ScrapeFormat
-from utils.main import logger
+from utils.logger import logger
 import time
 from datasets import load_dataset
-
+import pandas as pd
 
 @dataclass
-class HF5Scraper(BaseScraper):
+class HF6Scraper(BaseScraper):
     """
-    Scraper for the 'hf5' format.
+    Scraper for the 'hf6' format.
     """
 
-    format = ScrapeFormat.HF_5NPCJOKES
-    dp = 7
+    format = ScrapeFormat.HF_6DADJOKES
+    dp = 8
 
     def scrape(self) -> None:
         """
-        Scrape the 'hf5' format and store the data.
+        Scrape the 'hf6' format and store the data.
         """
         if self.format is None:
             logger.info("No format specified")
             return
-        logger.info("Running scraper for HF5 format")
+        logger.info("Running scraper for HF6 format") 
         start = time.time()
 
-        df = load_dataset("pestowithpasta/npc-jokes")
-        df_main = df["train"].to_pandas()
-
-        del df
-
-        df_main["content"] = df_main.apply(
-            lambda x: str(x["Question"]).lower() + str(x["Answer"]).lower(),
-            axis=1,
+        df = load_dataset("gnumanth/dad-jokes")
+        df_main:pd.DataFrame = pd.concat(
+            [df["train"].to_pandas(), df["test"].to_pandas()], ignore_index=True
         )
-        df_main.drop_duplicates(subset=["content"], inplace=True)
-
-        df_main.reset_index(drop=True, inplace=True)
+        df_main.rename(columns={"joke": "content"}, inplace=True)
         df_main.drop(
-            ["Answer", "Question", "ID"],
+            ["id", "name"],
             axis=1,
             inplace=True,
         )
+        del df
+
+        df_main.drop_duplicates(subset=["content"], inplace=True)
+
+        df_main.reset_index(drop=True, inplace=True)
+
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
@@ -49,13 +48,13 @@ class HF5Scraper(BaseScraper):
             .str.strip("")
             .str.lower()
         )
+
         df_main = df_main.to_json(
             orient="records",
             lines=True,
             force_ascii=False,
         )
-
-        # uploading datapoint=7
+        # uploading datapoint=8
         # TODO: Implement upload_dataset_to_s3 function
         # upload_dataset_to_s3(df_main, "funnyshortjokes")
 

@@ -1,51 +1,41 @@
-from scraper.base.main import BaseScraper
+from base import BaseScraper
 from dataclasses import dataclass
-from scraper.format import ScrapeFormat
-from utils.main import logger
+from format import ScrapeFormat
+from utils.logger import logger
 import time
 from datasets import load_dataset
 
 
 @dataclass
-class HF4Scraper(BaseScraper):
+class HF3Scraper(BaseScraper):
     """
-    Scraper for the 'hf5' format.
+    Scraper for the 'hf3' format.
     """
 
-    format = ScrapeFormat.HF_4COUNTRIESJOKES
-    dp = 6
+    format = ScrapeFormat.HF_3AMIRKIDJOKES
+    dp = 5
 
     def scrape(
         self,
     ) -> None:
         """
-        Scrape the 'hf5' format and store the data.
+        Scrape the 'hf3' format and store the data.
         """
         if self.format is None:
             logger.info("No format specified")
             return
 
-        logger.info("Running scraper for HF5 format")
+        logger.info("Running scraper for HF3 format")
         start = time.time()
 
-        df = load_dataset("Falah/countries_jokes_dataset")
+        df = load_dataset("Amirkid/jokes")
         df_main = df["train"].to_pandas()
-
+        df_main.rename(columns={"text": "content"}, inplace=True)
         del df
 
-        df_main["content"] = df_main.apply(
-            lambda x: str(x["question"]).lower()
-            + str(x["answer"]).lower(),
-            axis=1,
-        )
         df_main.drop_duplicates(subset=["content"], inplace=True)
         df_main.reset_index(drop=True, inplace=True)
 
-        df_main.drop(
-            ["question", "answer", "country"],
-            axis=1,
-            inplace=True,
-        )
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
@@ -57,7 +47,7 @@ class HF4Scraper(BaseScraper):
             lines=True,
             force_ascii=False,
         )
-        # uploading datapoint=6
+        # uploading datapoint=5
         # TODO: Implement upload_dataset_to_s3 function
         # upload_dataset_to_s3(df_main, "funnyshortjokes")
 
