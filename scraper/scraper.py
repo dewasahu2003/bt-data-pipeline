@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from base import BaseScraper
-from .utils import logger
+from ..utils.logger import logger
 from typing import List
 from core import *
 
