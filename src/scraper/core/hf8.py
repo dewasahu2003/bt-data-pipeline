@@ -1,38 +1,47 @@
-from base.main import BaseScraper
+from scraper.base.main import BaseScraper
 from dataclasses import dataclass
-from scrapper.format.formats import ScrapeFormat
-from utils.logger import logger
+from scraper.format import ScrapeFormat
+from utils.main import logger
 import time
 from datasets import load_dataset
 
 
 @dataclass
-class HF13Scraper(BaseScraper):
+class HF8Scraper(BaseScraper):
     """
-    Scraper for the 'hf13' format.
+    Scraper for the 'hf8' format.
     """
 
-    format = ScrapeFormat.HF_13FRIENDS
-    dp = 15
+    format = ScrapeFormat.HF_8MEMEGENJOKE
+    dp = 10
 
     def scrape(self) -> None:
         """
-        Scrape the 'hf13' format and store the data.
+        Scrape the 'hf8' format and store the data.
         """
         if self.format is None:
             logger.info("No format specified")
             return
-        logger.info("Running scraper for HF13 format")
+        logger.info("Running scraper for HF8 format")
+
         start = time.time()
 
-        df = load_dataset("Teejeigh/raw_friends_series_transcript")
+        df = load_dataset("Jayeshkumarjangir/memegen_jokes_1217")
         df_main = df["train"].to_pandas()
         del df
 
-        df_main.rename(columns={"text": "content"}, inplace=True)
+        df_main["content"] = df_main.apply(
+            lambda x: str(x["prompt"]) + str(x["completion"]),
+            axis=1,
+        )
         df_main.drop_duplicates(subset=["content"], inplace=True)
 
         df_main.reset_index(drop=True, inplace=True)
+        df_main.drop(
+            ["prompt", "completion", "instruction"],
+            axis=1,
+            inplace=True,
+        )
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
@@ -52,4 +61,5 @@ class HF13Scraper(BaseScraper):
         del df_main
 
         end = time.time()
+        self.time=end-start
         logger.info(f"Scraping time for dp{self.dp} is {end-start}s")

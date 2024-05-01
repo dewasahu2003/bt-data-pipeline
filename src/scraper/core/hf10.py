@@ -1,7 +1,7 @@
-from base.main import BaseScraper
+from scraper.base.main import BaseScraper
 from dataclasses import dataclass
-from scrapper.format.formats import ScrapeFormat
-from utils.logger import logger
+from scraper.format import ScrapeFormat
+from utils.main import logger
 import time
 from datasets import load_dataset
 
@@ -63,4 +63,5 @@ class HF10Scraper(BaseScraper):
         del df_main
 
         end = time.time()
+        self.time = end - start
         logger.info(f"Scraping time for dp{self.dp} is {end-start}s")

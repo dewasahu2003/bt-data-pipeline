@@ -1,63 +1,60 @@
-from base.main import BaseScraper
+from base import BaseScraper
 from dataclasses import dataclass
-from scrapper.format.formats import ScrapeFormat
-from utils.logger import logger
+from format import ScrapeFormat
+from utils.main import logger
 import time
 from datasets import load_dataset
 
 
 @dataclass
-class HF7Scraper(BaseScraper):
+class HF1Scraper(BaseScraper):
     """
-    Scraper for the 'hf7' format.
+    Scraper for the 'hf1' format.
     """
 
-    format = ScrapeFormat.HF_7OIGJOKES
-    dp = 9
+    format = ScrapeFormat.HF_10ENGLISHJOKES
+    dp=3
 
-    def scrape(self) -> None:
+    def scrape(
+        self,
+    ) -> None:
         """
-        Scrape the 'hf7' format and store the data.
+        Scrape the 'hf1' format and store the data.
         """
         if self.format is None:
             logger.info("No format specified")
             return
-        logger.info("Running scraper for HF7 format")
+        logger.info("Running scraper for HF1 format")
         start = time.time()
 
-        df = load_dataset("orangetin/oig-jokes")
+        df = load_dataset("Khalida1w/funny_quotes")
         df_main = df["train"].to_pandas()
+
+        df_main.rename(columns={"quote": "content"}, inplace=True)
         del df
 
-        df_main.rename(columns={"text": "content"}, inplace=True)
-        df_main.drop(
-            ["metadata"],
-            axis=1,
-            inplace=True,
-        )
         df_main.drop_duplicates(subset=["content"], inplace=True)
-
+        
         df_main.reset_index(drop=True, inplace=True)
-
+        df_main.drop(["author", "tags"], axis=1, inplace=True)
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
-            .replace(r"[\r\n]+", "")
-            .str.strip("")
-            .str.lower()
+            .replace(r"[\r\n]+", " ")
+            .str.strip(" ").str.lower()
         )
-
         df_main = df_main.to_json(
             orient="records",
             lines=True,
             force_ascii=False,
         )
-
-        # uploading datapoint=9
+        # uploading datapoint=1
         # TODO: Implement upload_dataset_to_s3 function
         # upload_dataset_to_s3(df_main, "funnyshortjokes")
+
 
         del df_main
 
         end = time.time()
-        logger.info(f"Scraping time for dp{self.dp} is {end-start}s")
+        self.time=end-start
+        logger.info(f"Scraping time for funnyshortjokes is {end-start}s")

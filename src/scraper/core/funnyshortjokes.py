@@ -1,11 +1,13 @@
-from bs4 import BeautifulSoup
-from base.main import BaseScraper
-from dataclasses import dataclass
-from scrapper.format.formats import ScrapeFormat
-from utils.logger import logger
 import time
+from dataclasses import dataclass
+
 import pandas as pd
 import requests
+from base import BaseScraper
+from bs4 import BeautifulSoup
+from format import ScrapeFormat
+
+from utils import logger
 
 
 @dataclass
@@ -95,4 +97,5 @@ class FunnyShortJokesScraper(BaseScraper):
         del df_main
 
         end = time.time()
+        self.time = end - start
         logger.info(f"Scraping time for funnyshortjokes is {end-start}s")
