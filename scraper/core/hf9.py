@@ -1,9 +1,10 @@
-from scraper.base.base import BaseScraper
+from base import BaseScraper
 from dataclasses import dataclass
-from scraper.format import ScrapeFormat
-from utils.logger import logger
+from format import ScrapeFormat
+from utils import logger
 import time
 from datasets import load_dataset
+
 import pandas as pd
 
 
@@ -13,8 +14,9 @@ class HF9Scraper(BaseScraper):
     Scraper for the 'hf9' format.
     """
 
-    format = ScrapeFormat.HF_9MYOTHIHAJ
-    dp = 11
+    format:ScrapeFormat = ScrapeFormat.HF_9MYOTHIHAJOKE
+    dp:int = 11
+    time:int = None
 
     def scrape(self) -> None:
         """

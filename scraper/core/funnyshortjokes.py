@@ -16,15 +16,17 @@ class FunnyShortJokesScraper(BaseScraper):
     Scraper for the 'funnyshortjokes' format.
     """
 
-    format = ScrapeFormat.FUNNYSHORTJOKES
-    dp = 1
+    format:ScrapeFormat = ScrapeFormat.FUNNYSHORTJOKES
+    dp:int = 1
+    time:int=None
 
-    def scrape(self, url: str) -> dict:
+    def scrape(self) -> dict:
         """
         Scrape the specified URL and return the scraped data as a dictionary.
         """
         if self.format is None:
-            logger.info("No format specified")
+            
+            logger.info(f"No format specified for {self.dp}")
             return
 
         logger.info("running scraper for funnyshortjokes")

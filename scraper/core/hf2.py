@@ -1,7 +1,7 @@
 from base import BaseScraper
 from dataclasses import dataclass
 from format import ScrapeFormat
-from utils.logger import logger
+from utils import logger
 import time
 from datasets import load_dataset
 
@@ -12,8 +12,9 @@ class HF2Scraper(BaseScraper):
     Scraper for the 'hf2' format.
     """
 
-    format = ScrapeFormat.HF_2HUMARTRAIN
-    dp = 4
+    format:ScrapeFormat = ScrapeFormat.HF_2HUMARTRAIN
+    dp:int = 4
+    time:int = None
 
     def scrape(
         self,

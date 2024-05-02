@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from format import ScrapeFormat
 
 
-
 @dataclass
 class BaseScraper(ABC):
     """

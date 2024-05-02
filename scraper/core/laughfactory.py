@@ -1,7 +1,7 @@
-from scraper.base.base import BaseScraper
+from base import BaseScraper
 from dataclasses import dataclass
-from scraper.format import ScrapeFormat
-from utils.logger import logger
+from format import ScrapeFormat
+from utils import logger
 import time
 import pandas as pd
 import requests
@@ -13,10 +13,13 @@ class LaughFactoryScraper(BaseScraper):
     Scraper for the 'laughfactory' format.
     """
 
-    format = ScrapeFormat.LAUGHFACTORY
-    dp = 2
+    format: ScrapeFormat = ScrapeFormat.LAUGHFACTORY
+    dp: int = 2
+    time: int = None
 
-    def scrape(self, url: str) -> dict:
+    def scrape(
+        self,
+    ) -> dict:
         """
         Scrape the specified URL and return the scraped data as a dictionary"""
         if self.format is None:

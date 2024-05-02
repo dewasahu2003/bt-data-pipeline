@@ -1,6 +1,6 @@
-from scraper.base.base import BaseScraper
+from base import BaseScraper
 from dataclasses import dataclass
-from scraper.format import ScrapeFormat
+from format import ScrapeFormat
 from utils.logger import logger
 import time
 from datasets import load_dataset
@@ -12,8 +12,9 @@ class HF8Scraper(BaseScraper):
     Scraper for the 'hf8' format.
     """
 
-    format = ScrapeFormat.HF_8MEMEGENJOKE
-    dp = 10
+    format:ScrapeFormat = ScrapeFormat.HF_8MEMEGENJOKE
+    dp:int = 10
+    time:int = None
 
     def scrape(self) -> None:
         """
