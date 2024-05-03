@@ -3,7 +3,7 @@ name = "depbot"
 version = "0.1.0"
 description = ""
 authors = ["dewasahu2003 <dewasahu2003@gmail.com>"]
-readme = "README.md"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -19,3 +19,7 @@ colorlog = "6.8.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+scraper = "scraper.main:main"
+
