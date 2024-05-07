@@ -12,9 +12,9 @@ import os
 
 class MainScraper(BaseScraper):
     scraper_registry: dict[str, BaseScraper] = {
+        "dp3": HF1Scraper(),
         "dp1": FunnyShortJokesScraper(),
         "dp2": LaughFactoryScraper(),
-        "dp3": HF1Scraper(),
         "dp4": HF2Scraper(),
         "dp5": HF3Scraper(),
         "dp6": HF4Scraper(),

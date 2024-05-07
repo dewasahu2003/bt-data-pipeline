@@ -13,9 +13,9 @@ class HF1Scraper(BaseScraper):
     Scraper for the 'hf1' format.
     """
 
-    format:ScrapeFormat = ScrapeFormat.HF_10ENGLISHJOKES
-    dp:int=3
-    time:int=None
+    format: ScrapeFormat = ScrapeFormat.HF_10ENGLISHJOKES
+    dp: int = 3
+    time: int = None
 
     def scrape(
         self,
@@ -43,10 +43,14 @@ class HF1Scraper(BaseScraper):
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")
             .replace(r"[\r\n]+", " ")
-            .str.strip(" ").str.lower()
+            .str.strip(" ")
+            .str.lower()
         )
-        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
+        
+        job = StoreJob()
+        job.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
+        del job
 
         end = time.time()
-        self.time=end-start
+        self.time = end - start
         logger.info(f"Scraping time for funnyshortjokes is {end-start}s")

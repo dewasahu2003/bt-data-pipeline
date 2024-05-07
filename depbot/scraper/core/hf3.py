@@ -1,4 +1,4 @@
-from ...jobs.store import StoreJob,FileFormat
+from ...jobs.store import StoreJob, FileFormat
 from ..base import BaseScraper
 from dataclasses import dataclass
 from ..format import ScrapeFormat
@@ -13,9 +13,9 @@ class HF3Scraper(BaseScraper):
     Scraper for the 'hf3' format.
     """
 
-    format:ScrapeFormat = ScrapeFormat.HF_3AMIRKIDJOKES
-    dp:int = 5
-    time:int = None
+    format: ScrapeFormat = ScrapeFormat.HF_3AMIRKIDJOKES
+    dp: int = 5
+    time: int = None
 
     def scrape(
         self,
@@ -44,8 +44,11 @@ class HF3Scraper(BaseScraper):
             .replace(r"[\r\n]+", "")
             .str.strip(" ")
         )
-        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
+        
+        job = StoreJob()
+        job.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
+        del job
 
         end = time.time()
-        self.time=end-start
+        self.time = end - start
         logger.info(f"Scraping time for funnyshortjokes is {end-start}s")

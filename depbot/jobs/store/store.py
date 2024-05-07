@@ -20,7 +20,6 @@ class StoreJob(BaseJob):
     format: JobFormat = JobFormat.STORAGE
 
     def __init__(self):
-        super().__init__()
         self.setup()
 
     def setup(self):
@@ -31,18 +30,17 @@ class StoreJob(BaseJob):
     def run(self):
         return super().run()
 
-    @classmethod
     def save(
-        cls,
+        self,
         file_type: FileFormat,
         df: pd.DataFrame,
         object_name: str,
     ):
         if file_type == FileFormat.CSV:
-            cls.save_csv(df=df, object_name=object_name)
+            self.save_csv(df=df, object_name=object_name)
             del df
         elif file_type == FileFormat.JSONL:
-            cls.save_jsonl(self=self, df=df, object_name=object_name)
+            self.save_jsonl(df=df, object_name=object_name)
             del df
         else:
             logger.error(f"Unsupported file type: {file_type}")
