@@ -80,7 +80,7 @@ class FunnyShortJokesScraper(BaseScraper):
 
         df_main.drop_duplicates(subset=["content"], inplace=True)
         df_main.reset_index(drop=True, inplace=True)
-        df_main.drop(["Unnamed: 0"], axis=1, inplace=True)
+       # df_main.drop(["Unnamed: 0"], axis=1, inplace=True)
         df_main["content"] = (
             df_main["content"]
             .str.replace(r"[^\x00-\x7F]", "")

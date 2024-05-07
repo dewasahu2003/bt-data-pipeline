@@ -13,9 +13,9 @@ class HF13Scraper(BaseScraper):
     Scraper for the 'hf13' format.
     """
 
-    format:ScrapeFormat = ScrapeFormat.HF_13FRIENDS
-    dp:int = 15
-    time:int = None
+    format: ScrapeFormat = ScrapeFormat.HF_13FRIENDS
+    dp: int = 15
+    time: int = None
 
     def scrape(self) -> None:
         """
