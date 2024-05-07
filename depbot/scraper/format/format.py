@@ -19,7 +19,6 @@ class ScrapeFormat(Enum):
     HF_8MEMEGENJOKE = "Jayeshkumarjangir/memegen_jokes_1217"
     HF_9MYOTHIHAJOKE = "myothiha/jokes"
     HF_10ENGLISHJOKES = "kuldin/english_jokes"
-    HF_11FRIDENDS = "yl2342/friends_chandler_bing_lines_sarcasm"
+    HF_11FRIDENDS = "yl2342/friends_chandler_bing_sarcasm"
     HF_12FRIENDS = "michellejieli/friends_dataset"
     HF_13FRIENDS = "Teejeigh/raw_friends_series_transcript"
-
