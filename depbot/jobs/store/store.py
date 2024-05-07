@@ -8,10 +8,6 @@ from dataclasses import dataclass
 import pandas as pd
 from botocore.exceptions import ClientError
 from .format import FileFormat
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 @dataclass
