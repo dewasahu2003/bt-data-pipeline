@@ -10,6 +10,12 @@ jobs:
       uses: actions/setup-python@v1
       with:   
         python-version: 3.11
+    
+    - name: aws config
+      run: |
+        aws configure set default.region ${{ secrets.AWS_REGION }}
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: run_script
       run: bash depbot/scripts/run.bash

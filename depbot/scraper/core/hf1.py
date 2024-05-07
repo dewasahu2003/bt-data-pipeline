@@ -1,3 +1,4 @@
+from ...jobs.store import StoreJob, FileFormat
 from ..base import BaseScraper
 from dataclasses import dataclass
 from ..format import ScrapeFormat
@@ -35,7 +36,7 @@ class HF1Scraper(BaseScraper):
         del df
 
         df_main.drop_duplicates(subset=["content"], inplace=True)
-        
+
         df_main.reset_index(drop=True, inplace=True)
         df_main.drop(["author", "tags"], axis=1, inplace=True)
         df_main["content"] = (
@@ -44,17 +45,7 @@ class HF1Scraper(BaseScraper):
             .replace(r"[\r\n]+", " ")
             .str.strip(" ").str.lower()
         )
-        df_main = df_main.to_json(
-            orient="records",
-            lines=True,
-            force_ascii=False,
-        )
-        # uploading datapoint=1
-        # TODO: Implement upload_dataset_to_s3 function
-        # upload_dataset_to_s3(df_main, "funnyshortjokes")
-
-
-        del df_main
+        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, filename=self.dp)
 
         end = time.time()
         self.time=end-start

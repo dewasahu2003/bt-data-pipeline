@@ -4,7 +4,7 @@ from ..format import ScrapeFormat
 from ..utils import logger
 import time
 from datasets import load_dataset
-
+from ...jobs.store import StoreJob, FileFormat
 
 @dataclass
 class HF7Scraper(BaseScraper):
@@ -48,17 +48,8 @@ class HF7Scraper(BaseScraper):
             .str.lower()
         )
 
-        df_main = df_main.to_json(
-            orient="records",
-            lines=True,
-            force_ascii=False,
-        )
+        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, filename=self.dp)
 
-        # uploading datapoint=9
-        # TODO: Implement upload_dataset_to_s3 function
-        # upload_dataset_to_s3(df_main, "funnyshortjokes")
-
-        del df_main
 
         end = time.time()
         self.time=end-start

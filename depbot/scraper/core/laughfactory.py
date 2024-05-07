@@ -6,6 +6,7 @@ import time
 
 import pandas as pd
 import requests
+from ...jobs.store import StoreJob, FileFormat
 
 
 @dataclass
@@ -98,17 +99,8 @@ class LaughFactoryScraper(BaseScraper):
             .replace(r"[\r\n]+", " ")
             .str.strip(" ")
         )
-        df_main = df_main.to_json(
-            orient="records",
-            lines=True,
-            force_ascii=False,
-        )
+        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, filename=self.dp)
 
-        # uploading datapoint=2
-        # TODO: Implement upload_dataset_to_s3 function
-        # upload_dataset_to_s3(df_main, "funnyshortjokes")
-
-        del df_main
         end = time.time()
         self.time = end - start
         logger.info(f"Scraping time for laughfactory is {end-start}s")
