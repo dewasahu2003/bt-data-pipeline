@@ -3,11 +3,11 @@ from dataclasses import dataclass
 
 import pandas as pd
 import requests
-from base import BaseScraper
+from ..base import BaseScraper
 from bs4 import BeautifulSoup
-from format import ScrapeFormat
+from ..format import ScrapeFormat
 
-from utils import logger
+from ..utils import logger
 
 
 @dataclass
@@ -16,16 +16,16 @@ class FunnyShortJokesScraper(BaseScraper):
     Scraper for the 'funnyshortjokes' format.
     """
 
-    format:ScrapeFormat = ScrapeFormat.FUNNYSHORTJOKES
-    dp:int = 1
-    time:int=None
+    format: ScrapeFormat = ScrapeFormat.FUNNYSHORTJOKES
+    dp: int = 1
+    time: int = None
 
     def scrape(self) -> dict:
         """
         Scrape the specified URL and return the scraped data as a dictionary.
         """
         if self.format is None:
-            
+
             logger.info(f"No format specified for {self.dp}")
             return
 

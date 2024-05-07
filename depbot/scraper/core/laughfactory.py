@@ -1,8 +1,9 @@
-from base import BaseScraper
+from ..base import BaseScraper
 from dataclasses import dataclass
-from format import ScrapeFormat
-from utils import logger
+from ..format import ScrapeFormat
+from ..utils import logger
 import time
+
 import pandas as pd
 import requests
 

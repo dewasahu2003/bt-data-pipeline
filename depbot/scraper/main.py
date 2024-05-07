@@ -2,11 +2,11 @@ import json
 from dataclasses import dataclass
 from datetime import datetime
 
-from base import BaseScraper
-from utils import logger
+from .base import BaseScraper
+from .utils import logger
 import argparse as ap
 from typing import List
-from core import *
+from .core import *
 import os
 
 

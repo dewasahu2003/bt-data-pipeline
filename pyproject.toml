@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "depbot"
-version = "0.1.0"
+version = "0.5.0"
 description = ""
 authors = ["dewasahu2003 <dewasahu2003@gmail.com>"]
 
@@ -21,5 +21,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-scraper = "scraper.main:main"
+scraper = "depbot.scraper.main:main"
+depbot = "depbot.main:main"
 
