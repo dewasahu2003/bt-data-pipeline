@@ -39,10 +39,10 @@ class StoreJob(BaseJob):
         object_name: str,
     ):
         if file_type == FileFormat.CSV:
-            self.save_csv(df, object_name)
+            self.save_csv(df=df, object_name=object_name)
             del df
         elif file_type == FileFormat.JSONL:
-            self.save_jsonl(df, object_name)
+            self.save_jsonl(df=df, object_name=object_name)
             del df
         else:
             logger.error(f"Unsupported file type: {file_type}")
