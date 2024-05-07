@@ -62,7 +62,7 @@ class HF9Scraper(BaseScraper):
             .str.strip("")
             .str.lower()
         )
-        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, filename=self.dp)
+        StoreJob.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
 
         end = time.time()
         self.time = end - start
