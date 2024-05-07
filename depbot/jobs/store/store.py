@@ -6,7 +6,7 @@ from ..job_format import JobFormat
 from ..base import BaseJob
 from dataclasses import dataclass
 import pandas as pd
-from boto3.exceptions import ClientError
+from botocore.exceptions import ClientError
 from .format import FileFormat
 import os
 from dotenv import load_dotenv
