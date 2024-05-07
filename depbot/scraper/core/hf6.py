@@ -28,7 +28,7 @@ class HF6Scraper(BaseScraper):
         logger.info("Running scraper for HF6 format") 
         start = time.time()
 
-        df = load_dataset("gnumanth/dad-jokes")
+        df = load_dataset(self.format.value)
         df_main:pd.DataFrame = pd.concat(
             [df["train"].to_pandas(), df["test"].to_pandas()], ignore_index=True
         )

@@ -29,7 +29,7 @@ class HF2Scraper(BaseScraper):
         logger.info("Running scraper for HF1 format")
         start = time.time()
 
-        df = load_dataset("lm233/humor_train")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
 
         df_main.rename(columns={"text": "content"}, inplace=True)

@@ -26,7 +26,7 @@ class HF7Scraper(BaseScraper):
         logger.info("Running scraper for HF7 format")
         start = time.time()
 
-        df = load_dataset("orangetin/oig-jokes")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
         del df
 

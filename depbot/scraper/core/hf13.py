@@ -27,7 +27,7 @@ class HF13Scraper(BaseScraper):
         logger.info("Running scraper for HF13 format")
         start = time.time()
 
-        df = load_dataset("Teejeigh/raw_friends_series_transcript")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
         del df
 

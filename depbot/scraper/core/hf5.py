@@ -27,7 +27,7 @@ class HF5Scraper(BaseScraper):
         logger.info("Running scraper for HF5 format")
         start = time.time()
 
-        df = load_dataset("pestowithpasta/npc-jokes")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
 
         del df

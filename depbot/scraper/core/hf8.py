@@ -28,7 +28,7 @@ class HF8Scraper(BaseScraper):
 
         start = time.time()
 
-        df = load_dataset("Jayeshkumarjangir/memegen_jokes_1217")
+        df = load_dataset(self.format.value)    
         df_main = df["train"].to_pandas()
         del df
 

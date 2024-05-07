@@ -28,7 +28,7 @@ class HF11Scraper(BaseScraper):
         logger.info("Running scraper for HF11 format")
         start = time.time()
 
-        df = load_dataset("yl2342/friends_chandler_bing_lines_sarcasm")
+        df = load_dataset(self.format.value)
 
         df_main = df["train"].to_pandas()
         del df

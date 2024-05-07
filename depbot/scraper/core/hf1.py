@@ -13,7 +13,7 @@ class HF1Scraper(BaseScraper):
     Scraper for the 'hf1' format.
     """
 
-    format: ScrapeFormat = ScrapeFormat.HF_10ENGLISHJOKES
+    format: ScrapeFormat = ScrapeFormat.HF_1FUNNYQUOTES
     dp: int = 3
     time: int = None
 
@@ -29,7 +29,7 @@ class HF1Scraper(BaseScraper):
         logger.info("Running scraper for HF1 format")
         start = time.time()
 
-        df = load_dataset("Khalida1w/funny_quotes")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
 
         df_main.rename(columns={"quote": "content"}, inplace=True)
@@ -46,7 +46,7 @@ class HF1Scraper(BaseScraper):
             .str.strip(" ")
             .str.lower()
         )
-        
+
         job = StoreJob()
         job.save(file_type=FileFormat.JSONL, df=df_main, object_name=self.dp)
         del job

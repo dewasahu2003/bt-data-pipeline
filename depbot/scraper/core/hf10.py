@@ -28,7 +28,7 @@ class HF10Scraper(BaseScraper):
         logger.info("Running scraper for HF10 format")
         start = time.time()
 
-        df = load_dataset("kuldin/english_jokes")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
 
         del df

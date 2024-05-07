@@ -29,7 +29,7 @@ class HF4Scraper(BaseScraper):
         logger.info("Running scraper for HF5 format")
         start = time.time()
 
-        df = load_dataset("Falah/countries_jokes_dataset")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
 
         del df

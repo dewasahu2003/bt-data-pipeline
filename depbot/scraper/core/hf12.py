@@ -29,7 +29,7 @@ class HF12Scraper(BaseScraper):
         logger.info("Running scraper for HF12 format")
         start = time.time()
 
-        df = load_dataset("michellejieli/friends_dataset")
+        df = load_dataset(self.format.value)
 
         df_main = df["train"].to_pandas()
         del df

@@ -30,7 +30,7 @@ class HF3Scraper(BaseScraper):
         logger.info("Running scraper for HF3 format")
         start = time.time()
 
-        df = load_dataset("Amirkid/jokes")
+        df = load_dataset(self.format.value)
         df_main = df["train"].to_pandas()
         df_main.rename(columns={"text": "content"}, inplace=True)
         del df

@@ -29,7 +29,7 @@ class HF9Scraper(BaseScraper):
         logger.info("Running scraper for HF9 format")
         start = time.time()
 
-        df = load_dataset("myothiha/jokes")
+        df = load_dataset(self.format.value)
 
         df_main = pd.concat(
             [
